@@ -25,6 +25,10 @@ class OtherListener implements EventSubscriberInterface
     {
         $data = $event->getData();
 
+        if ($data === null) {
+            return;
+        }
+
         if (isset($data['choices'])) {
             $choices = $data['choices'];
             unset($data['choices']);

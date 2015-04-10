@@ -22,7 +22,7 @@
                 <td><a href="{{ path('survey_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
                 <td>{{ entity.title }}</td>
                 <td>
-                    <a class="btn btn-success" href="{{ path('survey_show', { 'id': entity.id }) }}">vote</a>
+                    <a class="btn {{ app.user.hasSurvey(entity) ? 'btn-default disabled' : 'btn-success' }}" href="{{ path('survey_show', { 'id': entity.id }) }}">vote</a>
                 </td>
             </tr>
         {% endfor %}

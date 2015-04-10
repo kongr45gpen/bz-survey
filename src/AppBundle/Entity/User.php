@@ -151,6 +151,19 @@ class User implements UserInterface, \Serializable
     }
 
     /**
+     * Find out whether a user has participated in a survey
+     *
+     * @param \AppBundle\Entity\Survey $survey
+     * @return User
+     */
+    public function hasSurvey(\AppBundle\Entity\Survey $survey)
+    {
+        return $this->surveys->exists(function($i, Survey $p) use ($survey) {
+            return $p->getId() === $survey->getId();
+        });
+    }
+
+    /**
      * Get surveys
      *
      * @return \Doctrine\Common\Collections\Collection

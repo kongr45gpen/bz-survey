@@ -58,23 +58,32 @@ class SurveyController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
+            if ($this->getUser()->hasSurvey($survey)) {
+                $this->get('session')->getFlashBag()->add(
+                    'error',
+                    'Sorry, but you have already participated in this survey'
+                );
+            } else {
+                $em = $this->getDoctrine()->getManager();
 
-            foreach ($form as $question) {
-                foreach ($question->getData() as $vote) {
-                    $vote->setUser($this->getUser());
+                foreach ($form as $question) {
+                    foreach ($question->getData() as $vote) {
+                        $vote->setUser($this->getUser());
 
-                    $em->persist($vote);
+                        $em->persist($vote);
+                    }
                 }
+
+                $this->getUser()->addSurvey($survey);
+                $em->flush();
+
+                $this->get('session')->getFlashBag()->add(
+                    'success',
+                    'Your submission was successful. The input you provided is valuable to us.'
+                );
+
+                return $this->redirect($this->generateUrl('survey'));
             }
-
-            $em->flush();
-            $this->get('session')->getFlashBag()->add(
-                'success',
-                'Your submission was successful. The input you provided is valuable to us.'
-            );
-
-            return $this->redirect($this->generateUrl('survey'));
         }
 
         return array(

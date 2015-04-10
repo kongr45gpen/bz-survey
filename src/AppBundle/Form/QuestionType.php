@@ -106,6 +106,9 @@ class QuestionType extends AbstractType
     {
         $resolver->setDefaults(array(
             'compound' => true,
+            'constraints' => function(Options $options) {
+                return new Question($options['question']);
+            },
             'label' => function(Options $options) {
                 return $options['question']->getTitle();
             },

@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h2>Login</h2>
+
+    <p class="lead">
+        <a class="btn btn-default btn-lg" href="http://my.bzflag.org/weblogin.php?action=weblogin&amp;url={{ url('homepage') ~ '?token=%TOKEN%&username=%USERNAME%'|e('url') }}">
+            BZFlag Login
+        </a>
+    </p>
+{% endblock %}

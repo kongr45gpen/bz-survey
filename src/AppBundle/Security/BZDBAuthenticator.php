@@ -19,9 +19,28 @@ class BZDBAuthenticator implements SimplePreAuthenticatorInterface
      */
     protected $entityManager;
 
-    public function __construct(EntityManager $entityManager)
+    /**
+     * The list of accepted BZFlag groups
+     * @var string[]
+     */
+    protected $groups;
+
+    /**
+     * @var boolean
+     */
+    protected $debug;
+
+    /**
+     * Create new BZDBAuthenticator
+     * @param EntityManager   $entityManager The doctrine entity manager
+     * @param string          $debug         Whether the kernel is on debug mode
+     * @param string[]|string $groups        The accepted BZFlag groups
+     */
+    public function __construct(EntityManager $entityManager, $groups, $debug)
     {
         $this->entityManager = $entityManager;
+        $this->groups = is_array($groups) ? $groups : array($groups);
+        $this->debug = $debug;
     }
 
     public function createToken(Request $request, $providerKey)
@@ -46,9 +65,16 @@ class BZDBAuthenticator implements SimplePreAuthenticatorInterface
         $username = $credentials[0];
         $token = $credentials[1];
 
-        // TODO: Check IP on production
-        // TODO: Group support
-        $bzData = \validate_token($token, $username, array(), false);
+        $bzData = \validate_token($token, $username, $this->groups, !$this->debug);
+
+        if ($this->groups && !empty($this->groups)) {
+            // Case insensitive string comparison
+            if (!isset($bzData['groups']) || !is_array($bzData['groups']) || empty(array_intersect($this->groups, $bzData['groups']))) {
+                throw new AuthenticationException(
+                    'You are not allowed to access this area'
+                );
+            }
+        }
 
         if (!$bzData) {
             throw new AuthenticationException(

@@ -16,5 +16,7 @@ parameters:
 
     locale:            en
 
+    bzflag_groups:     ["POLL.PARTICIPANTS", "POLL.ADMINS"]
+
     # A secret key that's used to generate certain security-related tokens
     secret:            ThisTokenIsNotSoSecretChangeIt

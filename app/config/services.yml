@@ -6,7 +6,7 @@ parameters:
 services:
     bzdb_authenticator:
         class:     AppBundle\Security\BZDBAuthenticator
-        arguments: ["@doctrine.orm.entity_manager"]
+        arguments: ["@doctrine.orm.entity_manager", "%bzflag_groups%", "%kernel.debug%"]
 #    service_name:
 #        class: AppBundle\Directory\ClassName
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]

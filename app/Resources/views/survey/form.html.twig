@@ -4,7 +4,7 @@
 {%- spaceless %}
     <div class="form-group{% if not valid %} has-error{% endif %}">
         <div class="{{ block('form_label_class') }}"></div>
-        <div class="col-md-4">
+        <div class="col-md-5 col-lg-4">
             {{ form_errors(form) }}
             <div class="input-group">
                 <span class="input-group-addon">
@@ -17,6 +17,14 @@
                 </span>
 {% endspaceless -%}
 {%- endblock %}
+
+{% block form_label_class -%}
+    {{ compound ? 'col-sm-4 col-md-3' : 'col-sm-1' }}
+{%- endblock form_label_class %}
+
+{% block form_group_class -%}
+    {{ compound ? 'col-sm-8 col-md-9' : 'col-sm-11' }}
+{%- endblock form_group_class %}
 
 {% block _other_text_row -%}
 {%- spaceless %}

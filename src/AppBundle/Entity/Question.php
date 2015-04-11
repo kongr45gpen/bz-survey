@@ -44,6 +44,13 @@ class Question
     private $multiple;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="url", type="string", length=255)
+     */
+    private $url;
+
+    /**
      * @ORM\OneToMany(targetEntity="Answer", mappedBy="question")
      */
     private $answers;
@@ -218,5 +225,28 @@ class Question
     public function getSurvey()
     {
         return $this->survey;
+    }
+
+    /**
+     * Set url
+     *
+     * @param string $url
+     * @return Question
+     */
+    public function setUrl($url)
+    {
+        $this->url = $url;
+
+        return $this;
+    }
+
+    /**
+     * Get url
+     *
+     * @return string 
+     */
+    public function getUrl()
+    {
+        return $this->url;
     }
 }

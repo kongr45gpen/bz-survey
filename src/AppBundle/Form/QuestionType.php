@@ -77,6 +77,8 @@ class QuestionType extends AbstractType
                return $choice === $value;
            };
        }
+
+       $view->vars['url'] = $options['url'];
    }
 
    /**
@@ -131,6 +133,9 @@ class QuestionType extends AbstractType
             'required' => function(Options $options) {
                 return $options['question']->getRequired();
             },
+            'url' => function(Options $options) {
+                return $options['question']->getUrl();
+            }
         ));
 
         $resolver->setRequired('question');

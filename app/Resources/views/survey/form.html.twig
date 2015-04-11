@@ -18,6 +18,36 @@
 {% endspaceless -%}
 {%- endblock %}
 
+{% block form_label %}
+    {% if url is defined and url %}
+        {%- set label_attr = label_attr|merge({class: (label_attr.class|default('') ~ ' control-label ' ~ block('form_label_class'))|trim}) -%}
+        {% if not compound -%}
+            {% set label_attr = label_attr|merge({'for': id}) %}
+        {%- endif %}
+        {% if required -%}
+            {% set label_attr = label_attr|merge({'class': (label_attr.class|default('') ~ ' required')|trim}) %}
+        {%- endif %}
+        {% if label is empty -%}
+            {%- if label_format is not empty -%}
+                {% set label = label_format|replace({
+                    '%name%': name,
+                    '%id%': id,
+                }) %}
+            {%- else -%}
+                {% set label = name|humanize %}
+            {%- endif -%}
+        {%- endif -%}
+        <label{% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>
+            <a href="{{ url }}" title="Access the original discussion" class="btn btn-default btn-xs" target="_blank">
+                <span class="glyphicon glyphicon-comment"></span>
+            </a>
+            {{ label|trans({}, translation_domain) }}
+        </label>
+    {% else %}
+        {{- parent() -}}
+    {% endif %}
+{% endblock %}
+
 {% block form_label_class -%}
     {{ compound ? 'col-sm-5 col-md-4' : 'col-lg-1' }}
 {%- endblock form_label_class %}

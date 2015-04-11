@@ -1,0 +1,4 @@
+.required:before {
+    color: #AA1111;
+    content: "* ";
+}

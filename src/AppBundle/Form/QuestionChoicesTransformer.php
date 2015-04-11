@@ -39,7 +39,12 @@ class QuestionChoicesTransformer implements DataTransformerInterface
             $data[$i]['selected'] = $values[$i];
 
             if ($answer->getOther()) {
-                $data[$i]['other'] = $values[$i . '-other'];
+                $other = $data[$i]['other'] = $values[$i . '-other'];
+
+                if (trim($other) != '') {
+                    // The user provided 'other' input but forgot to check the box
+                    $data[$i]['selected'] = true;
+                };
             }
         }
 

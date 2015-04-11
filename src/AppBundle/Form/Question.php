@@ -40,9 +40,7 @@ class Question extends Constraint
     public $requiredOtherMessage = "The answer you chose requires you to type something in the 'Other' field";
 
     /**
-     * @todo Not implemented yet.
-     *
      * @var string
      */
-    public $extraOtherMessage = "You can't provide 'other' text for an option you have not selected";
+    public $extraChoiceMessage = "You have specified more than one choices to a question that requires a single answer";
 }

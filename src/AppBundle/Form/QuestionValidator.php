@@ -21,7 +21,12 @@ class QuestionValidator extends ConstraintValidator
                 ->addViolation();
         }
 
-        foreach ($data as $vote) {
+        if (!$constraint->question->getMultiple() && count($data) > 1) {
+            $this->context->buildViolation($constraint->extraChoiceMessage)
+                ->addViolation();
+        }
+
+        foreach ($data as $i => $vote) {
             $other = trim($vote->getOther());
 
             if ($vote->getAnswer()->getOther() && $constraint->question->getRequired() && empty($other)) {

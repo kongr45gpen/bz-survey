@@ -1,0 +1,32 @@
+{% extends "bootstrap_3_horizontal_layout.html.twig" %}
+
+{% block _other_checkbox_row -%}
+{%- spaceless %}
+    <div class="form-group{% if not valid %} has-error{% endif %}">
+        <div class="{{ block('form_label_class') }}"></div>
+        <div class="col-md-4">
+            {{ form_errors(form) }}
+            <div class="input-group">
+                <span class="input-group-addon">
+                    {% set label = false %}
+                    {{ form_widget(form, {
+                        label: false,
+                        parent_label_class: ["checkbox-inline", "radio-inline"]
+                       })
+                    }}
+                </span>
+{% endspaceless -%}
+{%- endblock %}
+
+{% block _other_text_row -%}
+{%- spaceless %}
+                {{ block('form_widget_simple') }}
+            </div>
+        </div>
+    </div>
+{% endspaceless -%}
+{%- endblock %}
+
+{% block _other_label %}
+    {{- widget|raw -}}
+{% endblock  %}

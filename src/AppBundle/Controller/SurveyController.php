@@ -23,7 +23,6 @@ class SurveyController extends Controller
      *
      * @Route("/", name="survey")
      * @Method("GET")
-     * @Template()
      */
     public function indexAction()
     {
@@ -31,17 +30,15 @@ class SurveyController extends Controller
 
         $entities = $em->getRepository('AppBundle:Survey')->findAll();
 
-        return array(
+        return $this->render('survey/index.html.twig', array(
             'entities' => $entities,
-        );
+        ));
     }
 
     /**
      * Finds and displays a Survey entity.
      *
      * @Route("/{id}", name="survey_show")
-     * //@Method("GET")
-     * @Template()
      */
     public function showAction(Survey $survey, Request $request)
     {
@@ -86,9 +83,9 @@ class SurveyController extends Controller
             }
         }
 
-        return array(
+        return $this->render('survey/show.html.twig', array(
             'survey'      => $survey,
             'form' => $form->createView()
-        );
+        ));
     }
 }

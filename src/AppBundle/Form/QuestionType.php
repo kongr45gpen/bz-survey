@@ -17,8 +17,6 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class QuestionType extends AbstractType
 {
-    private $otherFields = array();
-
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
@@ -31,6 +29,7 @@ class QuestionType extends AbstractType
 
         foreach ($options['question']->getAnswers() as $i => $answer) {
             $builder->add($i, $type, array(
+                'attr' => array('data-other' => $answer->getOther() ? $type : false),
                 'block_name' => 'entry',
                 'label' => $answer->getTitle(),
                 'required' => false,
@@ -41,11 +40,14 @@ class QuestionType extends AbstractType
                 $name = $i . '-other';
 
                 $builder->add($name, 'text', array(
+                    'attr' => array(
+                        'data-other' => 'text',
+                        'placeholder' => $answer->getTitle(),
+                    ),
+                    'block_name' => 'entry',
                     'label' => 'Other',
                     'required' => false
                 ));
-
-                $this->otherFields[] = $name;
             }
 
             $choices[$i] = $i;
@@ -91,10 +93,24 @@ class QuestionType extends AbstractType
         }
 
         foreach ($view as $childView) {
-            // Only radios and checkboxes should be affected
-            if (!in_array($childView->vars['name'], $this->otherFields)) {
+            $other = $childView->vars['attr']['data-other'];
+
+            if ($other !== 'text') {
+                // Only radios and checkboxes should be affected
                 $childView->vars['full_name'] = $childName;
             }
+
+            if ($other !== false) {
+                $childView->vars['block_prefixes'][] = '_other';
+                $childView->vars['block_prefixes'][] = '_other_' . $other;
+
+                if ($other === 'radio') {
+                    // Radios are checkboxes
+                    $childView->vars['block_prefixes'][] = '_other_checkbox';
+                }
+            }
+
+            unset($childView->vars['attr']['data-other']);
         }
     }
 

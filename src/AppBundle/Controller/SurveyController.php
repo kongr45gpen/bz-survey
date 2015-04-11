@@ -55,7 +55,12 @@ class SurveyController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            if ($this->getUser()->hasSurvey($survey)) {
+            if (!$survey->getEnabled()) {
+                $this->get('session')->getFlashBag()->add(
+                    'error',
+                    'Sorry, but this survey isn\'t accepting responses any more.'
+                );
+            } elseif ($this->getUser()->hasSurvey($survey)) {
                 $this->get('session')->getFlashBag()->add(
                     'error',
                     'Sorry, but you have already participated in this survey'
@@ -76,7 +81,7 @@ class SurveyController extends Controller
 
                 $this->get('session')->getFlashBag()->add(
                     'success',
-                    'Your submission was successful. The input you provided is valuable to us.'
+                    'Your submission was successful'
                 );
 
                 return $this->redirect($this->generateUrl('survey'));

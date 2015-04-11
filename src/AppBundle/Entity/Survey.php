@@ -30,6 +30,13 @@ class Survey
     private $title;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="enabled", type="boolean")
+     */
+    private $enabled;
+
+    /**
      * @ORM\OneToMany(targetEntity="Question", mappedBy="survey")
      */
     private $questions;
@@ -107,5 +114,28 @@ class Survey
     public function getQuestions()
     {
         return $this->questions;
+    }
+
+    /**
+     * Set enabled
+     *
+     * @param boolean $enabled
+     * @return Survey
+     */
+    public function setEnabled($enabled)
+    {
+        $this->enabled = $enabled;
+
+        return $this;
+    }
+
+    /**
+     * Get enabled
+     *
+     * @return boolean 
+     */
+    public function getEnabled()
+    {
+        return $this->enabled;
     }
 }

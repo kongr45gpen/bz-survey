@@ -1,0 +1,35 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}{{ survey.title }} Results{% endblock %}
+
+{% block body -%}
+    <h1>{{ survey.title }}</h1>
+
+    {% for question in survey.questions %}
+        <h3>{{ question.title }}</h3>
+        <dl class="dl-horizontal">
+            {% for answer in question.answers %}
+                {%- set other = [] -%}
+                {%- for vote in answer.votes -%}
+                    {%- if vote.other -%}
+                        {%- set other = other|merge([vote.other]) -%}
+                    {%- endif -%}
+                {%- endfor -%}
+
+                <dt>{{ answer.title|raw }}</dt>
+                <dd>
+                    {% set count = answer.votes|length %}
+                    {{ count }} {{ (count == 1) ? 'vote' : 'votes' }}
+                    {% if other is not empty %}
+                        ({{ other|join(', ') }})
+                    {% endif %}
+                </dd>
+            {% endfor %}
+        </dl>
+        <hr>
+    {% endfor %}
+
+    <a class="btn btn-default" href="{{ path('survey') }}">
+        Back to the list
+    </a>
+{% endblock %}

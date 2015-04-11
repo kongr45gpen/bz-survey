@@ -31,9 +31,16 @@
                     {% set class = 'btn-success' %}
                 {% endif %}
                 <td>
-                    <a class="btn {{ class }}" href="{{ path('survey_show', { 'id': survey.id }) }}">
-                        {{ voted ? 'voted' : 'vote' }}
-                    </a>
+                    <div class="btn-group" role="group">
+                        <a class="btn {{ class }}" href="{{ path('survey_show', { 'id': survey.id }) }}">
+                            {{ voted ? 'voted' : 'vote' }}
+                        </a>
+                        {% if survey.showResults %}
+                            <a class="btn btn-default" href="{{ path('survey_results', { 'id': survey.id }) }}">
+                                results
+                            </a>
+                        {% endif %}
+                    </div>
                 </td>
             </tr>
         {% endfor %}

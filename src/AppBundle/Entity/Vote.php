@@ -29,7 +29,7 @@ class Vote
     private $other;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Answer")
+     * @ORM\ManyToOne(targetEntity="Answer", inversedBy="votes")
      **/
     private $answer;
 

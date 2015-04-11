@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -91,6 +92,22 @@ class SurveyController extends Controller
         return $this->render('survey/show.html.twig', array(
             'survey'      => $survey,
             'form' => $form->createView()
+        ));
+    }
+
+    /**
+     * Finds and displays the results of a Survey entity.
+     *
+     * @Route("/{id}/results", name="survey_results")
+     */
+    public function resultsAction(Survey $survey)
+    {
+        if (!$survey->getShowResults()) {
+            throw new AccessDeniedException('You cannot access this page');
+        }
+
+        return $this->render('survey/results.html.twig', array(
+            'survey'      => $survey
         ));
     }
 }

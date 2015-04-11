@@ -25,7 +25,7 @@ class Question
     /**
      * @var string
      *
-     * @ORM\Column(name="title", type="string", length=255)
+     * @ORM\Column(name="title", type="string", length=511)
      */
     private $title;
 
@@ -213,7 +213,7 @@ class Question
     /**
      * Get survey
      *
-     * @return \AppBundle\Entity\Survey 
+     * @return \AppBundle\Entity\Survey
      */
     public function getSurvey()
     {

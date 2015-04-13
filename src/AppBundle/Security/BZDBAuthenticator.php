@@ -7,12 +7,13 @@ use Doctrine\ORM\EntityManager;
 use Symfony\Component\Security\Core\Authentication\SimplePreAuthenticatorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
+use Symfony\Component\Security\Http\Authentication\AuthenticationFailureHandlerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\PreAuthenticatedToken;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Core\Exception\BadCredentialsException;
 
-class BZDBAuthenticator implements SimplePreAuthenticatorInterface
+class BZDBAuthenticator implements SimplePreAuthenticatorInterface, AuthenticationFailureHandlerInterface
 {
     /**
      * @var EntityManager
@@ -49,7 +50,7 @@ class BZDBAuthenticator implements SimplePreAuthenticatorInterface
         $token = $request->query->get('token');
 
         if (!$username || !$token) {
-            throw new BadCredentialsException('No authentication token found');
+            throw new AuthenticationException('No authentication token found');
         }
 
         return new PreAuthenticatedToken(
@@ -67,19 +68,19 @@ class BZDBAuthenticator implements SimplePreAuthenticatorInterface
 
         $bzData = \validate_token($token, $username, $this->groups, !$this->debug);
 
+        if (!$bzData) {
+            throw new BadCredentialsException(
+                'The authentication token provided is invalid'
+            );
+        }
+
         if ($this->groups && !empty($this->groups)) {
-            // Case insensitive string comparison
+            // BZFlag groups are case sensitive, so we don't need to make a case-insensitive check
             if (!isset($bzData['groups']) || !is_array($bzData['groups']) || empty(array_intersect($this->groups, $bzData['groups']))) {
-                throw new AuthenticationException(
+                throw new AccessDeniedException(
                     'You are not allowed to access this area'
                 );
             }
-        }
-
-        if (!$bzData) {
-            throw new AuthenticationException(
-                'The authentication token provided is invalid'
-            );
         }
 
         $bzid = $bzData['bzid'];
@@ -103,6 +104,15 @@ class BZDBAuthenticator implements SimplePreAuthenticatorInterface
             $providerKey,
             $user->getRoles()
         );
+    }
+
+    public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
+    {
+        if ($exception instanceof BadCredentialsException || $exception instanceof AccessDeniedException) {
+            $request->getSession()
+                ->getFlashbag()
+                ->add('error', $exception->getMessage());
+        }
     }
 
     public function supportsToken(TokenInterface $token, $providerKey)

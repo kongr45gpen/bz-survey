@@ -57,12 +57,12 @@ class SurveyController extends Controller
 
         if ($form->isValid()) {
             if (!$survey->getEnabled()) {
-                $this->get('session')->getFlashBag()->add(
+                $this->addFlash(
                     'error',
                     'Sorry, but this survey isn\'t accepting responses any more.'
                 );
             } elseif ($this->getUser()->hasSurvey($survey)) {
-                $this->get('session')->getFlashBag()->add(
+                $this->addFlash(
                     'error',
                     'Sorry, but you have already participated in this survey'
                 );
@@ -80,7 +80,7 @@ class SurveyController extends Controller
                 $this->getUser()->addSurvey($survey);
                 $em->flush();
 
-                $this->get('session')->getFlashBag()->add(
+                $this->addFlash(
                     'success',
                     'Your submission was successful'
                 );

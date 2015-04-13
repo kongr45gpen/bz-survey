@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * User
+ * User.
  *
  * @ORM\Table()
  * @ORM\Entity
@@ -15,7 +15,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class User implements UserInterface, \Serializable
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -42,9 +42,8 @@ class User implements UserInterface, \Serializable
      */
     private $surveys;
 
-
     /**
-     * Create new Survey
+     * Create new Survey.
      */
     public function __construct()
     {
@@ -52,9 +51,9 @@ class User implements UserInterface, \Serializable
     }
 
     /**
-     * Get id
+     * Get id.
      *
-     * @return integer
+     * @return int
      */
     public function getId()
     {
@@ -62,9 +61,10 @@ class User implements UserInterface, \Serializable
     }
 
     /**
-     * Set bzid
+     * Set bzid.
      *
      * @param string $bzid
+     *
      * @return User
      */
     public function setBzid($bzid)
@@ -75,7 +75,7 @@ class User implements UserInterface, \Serializable
     }
 
     /**
-     * Get bzid
+     * Get bzid.
      *
      * @return string
      */
@@ -85,7 +85,7 @@ class User implements UserInterface, \Serializable
     }
 
     /**
-     * Get username
+     * Get username.
      *
      * @return string
      */
@@ -99,13 +99,11 @@ class User implements UserInterface, \Serializable
      */
     public function getSalt()
     {
-        return null;
+        return;
     }
 
     /**
-     * Get password
-     *
-     * @return null
+     * Get password.
      */
     public function getPassword()
     {
@@ -128,9 +126,10 @@ class User implements UserInterface, \Serializable
     }
 
     /**
-     * Add surveys
+     * Add surveys.
      *
      * @param \AppBundle\Entity\Survey $surveys
+     *
      * @return User
      */
     public function addSurvey(\AppBundle\Entity\Survey $surveys)
@@ -141,7 +140,7 @@ class User implements UserInterface, \Serializable
     }
 
     /**
-     * Remove surveys
+     * Remove surveys.
      *
      * @param \AppBundle\Entity\Survey $surveys
      */
@@ -151,20 +150,21 @@ class User implements UserInterface, \Serializable
     }
 
     /**
-     * Find out whether a user has participated in a survey
+     * Find out whether a user has participated in a survey.
      *
      * @param \AppBundle\Entity\Survey $survey
+     *
      * @return User
      */
     public function hasSurvey(\AppBundle\Entity\Survey $survey)
     {
-        return $this->surveys->exists(function($i, Survey $p) use ($survey) {
+        return $this->surveys->exists(function ($i, Survey $p) use ($survey) {
             return $p->getId() === $survey->getId();
         });
     }
 
     /**
-     * Get surveys
+     * Get surveys.
      *
      * @return \Doctrine\Common\Collections\Collection
      */
@@ -174,9 +174,10 @@ class User implements UserInterface, \Serializable
     }
 
     /**
-     * Set username
+     * Set username.
      *
      * @param string $username
+     *
      * @return User
      */
     public function setUsername($username)
@@ -199,7 +200,7 @@ class User implements UserInterface, \Serializable
     /** @see \Serializable::unserialize() */
     public function unserialize($serialized)
     {
-        list (
+        list(
             $this->id,
             $this->bzid,
             $this->username,

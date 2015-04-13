@@ -6,7 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Survey
+ * Survey.
  *
  * @ORM\Table()
  * @ORM\Entity
@@ -14,7 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Survey
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -30,14 +30,14 @@ class Survey
     private $title;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="enabled", type="boolean")
      */
     private $enabled;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="showResults", type="boolean")
      */
@@ -53,20 +53,19 @@ class Survey
      */
     private $users;
 
-
     /**
-     * Create new Survey
+     * Create new Survey.
      */
     public function __construct()
     {
         $this->questions = new ArrayCollection();
-        $this->users = new ArrayCollection();
+        $this->users     = new ArrayCollection();
     }
 
     /**
-     * Get id
+     * Get id.
      *
-     * @return integer
+     * @return int
      */
     public function getId()
     {
@@ -74,9 +73,10 @@ class Survey
     }
 
     /**
-     * Set title
+     * Set title.
      *
      * @param string $title
+     *
      * @return Survey
      */
     public function setTitle($title)
@@ -87,7 +87,7 @@ class Survey
     }
 
     /**
-     * Get title
+     * Get title.
      *
      * @return string
      */
@@ -97,9 +97,10 @@ class Survey
     }
 
     /**
-     * Add questions
+     * Add questions.
      *
      * @param \AppBundle\Entity\Question $questions
+     *
      * @return Survey
      */
     public function addQuestion(\AppBundle\Entity\Question $questions)
@@ -110,7 +111,7 @@ class Survey
     }
 
     /**
-     * Remove questions
+     * Remove questions.
      *
      * @param \AppBundle\Entity\Question $questions
      */
@@ -120,7 +121,7 @@ class Survey
     }
 
     /**
-     * Get questions
+     * Get questions.
      *
      * @return \Doctrine\Common\Collections\Collection
      */
@@ -130,9 +131,10 @@ class Survey
     }
 
     /**
-     * Set enabled
+     * Set enabled.
      *
-     * @param boolean $enabled
+     * @param bool $enabled
+     *
      * @return Survey
      */
     public function setEnabled($enabled)
@@ -143,9 +145,9 @@ class Survey
     }
 
     /**
-     * Get enabled
+     * Get enabled.
      *
-     * @return boolean
+     * @return bool
      */
     public function getEnabled()
     {
@@ -153,9 +155,10 @@ class Survey
     }
 
     /**
-     * Set showResults
+     * Set showResults.
      *
-     * @param boolean $showResults
+     * @param bool $showResults
+     *
      * @return Survey
      */
     public function setShowResults($showResults)
@@ -166,9 +169,9 @@ class Survey
     }
 
     /**
-     * Get showResults
+     * Get showResults.
      *
-     * @return boolean
+     * @return bool
      */
     public function getShowResults()
     {
@@ -176,9 +179,10 @@ class Survey
     }
 
     /**
-     * Add users
+     * Add users.
      *
      * @param \AppBundle\Entity\User $users
+     *
      * @return Survey
      */
     public function addUser(\AppBundle\Entity\User $users)
@@ -189,7 +193,7 @@ class Survey
     }
 
     /**
-     * Remove users
+     * Remove users.
      *
      * @param \AppBundle\Entity\User $users
      */
@@ -199,7 +203,7 @@ class Survey
     }
 
     /**
-     * Get users
+     * Get users.
      *
      * @return \Doctrine\Common\Collections\Collection
      */

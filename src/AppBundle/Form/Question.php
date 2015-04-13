@@ -6,7 +6,7 @@ use AppBundle\Entity\Question as QuestionEntity;
 use Symfony\Component\Validator\Constraint;
 
 /**
- * Question form constraint
+ * Question form constraint.
  */
 class Question extends Constraint
 {
@@ -16,7 +16,8 @@ class Question extends Constraint
     public $question;
 
     /**
-     * Create new question form constraint
+     * Create new question form constraint.
+     *
      * @param QuestionEntity $question The question
      */
     public function __construct(QuestionEntity $question)
@@ -42,5 +43,5 @@ class Question extends Constraint
     /**
      * @var string
      */
-    public $extraChoiceMessage = "You have specified more than one choices to a question that requires a single answer";
+    public $extraChoiceMessage = 'You have specified more than one choices to a question that requires a single answer';
 }

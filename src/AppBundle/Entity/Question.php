@@ -6,7 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Question
+ * Question.
  *
  * @ORM\Table()
  * @ORM\Entity
@@ -14,7 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Question
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -30,14 +30,14 @@ class Question
     private $title;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="required", type="boolean")
      */
     private $required;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="multiple", type="boolean")
      */
@@ -60,9 +60,8 @@ class Question
      */
     private $survey;
 
-
     /**
-     * Create new Question
+     * Create new Question.
      */
     public function __construct()
     {
@@ -70,9 +69,9 @@ class Question
     }
 
     /**
-     * Get id
+     * Get id.
      *
-     * @return integer
+     * @return int
      */
     public function getId()
     {
@@ -80,9 +79,10 @@ class Question
     }
 
     /**
-     * Set title
+     * Set title.
      *
      * @param string $title
+     *
      * @return Question
      */
     public function setTitle($title)
@@ -93,7 +93,7 @@ class Question
     }
 
     /**
-     * Get title
+     * Get title.
      *
      * @return string
      */
@@ -103,9 +103,10 @@ class Question
     }
 
     /**
-     * Set required
+     * Set required.
      *
-     * @param boolean $required
+     * @param bool $required
+     *
      * @return Question
      */
     public function setRequired($required)
@@ -116,9 +117,9 @@ class Question
     }
 
     /**
-     * Get required
+     * Get required.
      *
-     * @return boolean
+     * @return bool
      */
     public function getRequired()
     {
@@ -126,9 +127,10 @@ class Question
     }
 
     /**
-     * Set multiple
+     * Set multiple.
      *
-     * @param boolean $multiple
+     * @param bool $multiple
+     *
      * @return Question
      */
     public function setMultiple($multiple)
@@ -139,9 +141,9 @@ class Question
     }
 
     /**
-     * Get multiple
+     * Get multiple.
      *
-     * @return boolean
+     * @return bool
      */
     public function getMultiple()
     {
@@ -149,9 +151,10 @@ class Question
     }
 
     /**
-     * Add answers
+     * Add answers.
      *
      * @param \AppBundle\Entity\Answer $answers
+     *
      * @return Question
      */
     public function addAnswer(\AppBundle\Entity\Answer $answers)
@@ -162,7 +165,7 @@ class Question
     }
 
     /**
-     * Remove answers
+     * Remove answers.
      *
      * @param \AppBundle\Entity\Answer $answers
      */
@@ -172,7 +175,7 @@ class Question
     }
 
     /**
-     * Get answers
+     * Get answers.
      *
      * @return \Doctrine\Common\Collections\Collection
      */
@@ -182,9 +185,10 @@ class Question
     }
 
     /**
-     * Set question
+     * Set question.
      *
      * @param \AppBundle\Entity\Survey $question
+     *
      * @return Question
      */
     public function setQuestion(\AppBundle\Entity\Survey $question = null)
@@ -195,7 +199,7 @@ class Question
     }
 
     /**
-     * Get question
+     * Get question.
      *
      * @return \AppBundle\Entity\Survey
      */
@@ -205,9 +209,10 @@ class Question
     }
 
     /**
-     * Set survey
+     * Set survey.
      *
      * @param \AppBundle\Entity\Survey $survey
+     *
      * @return Question
      */
     public function setSurvey(\AppBundle\Entity\Survey $survey = null)
@@ -218,7 +223,7 @@ class Question
     }
 
     /**
-     * Get survey
+     * Get survey.
      *
      * @return \AppBundle\Entity\Survey
      */
@@ -228,9 +233,10 @@ class Question
     }
 
     /**
-     * Set url
+     * Set url.
      *
      * @param string $url
+     *
      * @return Question
      */
     public function setUrl($url)
@@ -241,9 +247,9 @@ class Question
     }
 
     /**
-     * Get url
+     * Get url.
      *
-     * @return string 
+     * @return string
      */
     public function getUrl()
     {

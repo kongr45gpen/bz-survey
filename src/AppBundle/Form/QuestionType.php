@@ -3,23 +3,17 @@
 namespace AppBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\DataTransformer\ChoiceToBooleanArrayTransformer;
-use Symfony\Component\Form\Extension\Core\DataTransformer\ChoicesToBooleanArrayTransformer;
-use Symfony\Component\Form\Extension\Core\EventListener\FixRadioInputListener;
-use Symfony\Component\Form\Extension\Core\EventListener\FixCheckboxInputListener;
-use Symfony\Component\Form\Extension\Core\EventListener\MergeCollectionListener;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-
 class QuestionType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
-     * @param array $options
+     * @param array                $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -29,11 +23,11 @@ class QuestionType extends AbstractType
 
         foreach ($options['question']->getAnswers() as $i => $answer) {
             $builder->add($i, $type, array(
-                'attr' => array('data-other' => $answer->getOther() ? $type : false),
+                'attr'       => array('data-other' => $answer->getOther() ? $type : false),
                 'block_name' => 'entry',
-                'label' => $answer->getTitle(),
-                'required' => false,
-                'value' => $i
+                'label'      => $answer->getTitle(),
+                'required'   => false,
+                'value'      => $i,
             ));
 
             if ($answer->getOther()) {
@@ -41,12 +35,12 @@ class QuestionType extends AbstractType
 
                 $builder->add($name, 'text', array(
                     'attr' => array(
-                        'data-other' => 'text',
+                        'data-other'  => 'text',
                         'placeholder' => $answer->getTitle(),
                     ),
                     'block_name' => 'entry',
-                    'label' => 'Other',
-                    'required' => false
+                    'label'      => 'Other',
+                    'required'   => false,
                 ));
             }
 
@@ -59,7 +53,7 @@ class QuestionType extends AbstractType
         $builder->addModelTransformer(new VoteTransformer($options['question']));
     }
 
-    /**
+   /**
     * {@inheritdoc}
     */
    public function buildView(FormView $view, FormInterface $form, array $options)
@@ -81,7 +75,7 @@ class QuestionType extends AbstractType
        $view->vars['url'] = $options['url'];
    }
 
-   /**
+    /**
      * {@inheritdoc}
      */
     public function finishView(FormView $view, FormInterface $form, array $options)
@@ -116,26 +110,25 @@ class QuestionType extends AbstractType
         }
     }
 
-
     /**
      * @param OptionsResolverInterface $resolver
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'compound' => true,
-            'constraints' => function(Options $options) {
+            'compound'    => true,
+            'constraints' => function (Options $options) {
                 return new Question($options['question']);
             },
-            'label' => function(Options $options) {
+            'label' => function (Options $options) {
                 return $options['question']->getTitle();
             },
-            'required' => function(Options $options) {
+            'required' => function (Options $options) {
                 return $options['question']->getRequired();
             },
-            'url' => function(Options $options) {
+            'url' => function (Options $options) {
                 return $options['question']->getUrl();
-            }
+            },
         ));
 
         $resolver->setRequired('question');

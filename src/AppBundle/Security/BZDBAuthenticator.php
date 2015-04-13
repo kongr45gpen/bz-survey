@@ -4,14 +4,14 @@ namespace AppBundle\Security;
 
 use AppBundle\Entity\User;
 use Doctrine\ORM\EntityManager;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\SimplePreAuthenticatorInterface;
+use Symfony\Component\Security\Core\Authentication\Token\PreAuthenticatedToken;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
-use Symfony\Component\Security\Http\Authentication\AuthenticationFailureHandlerInterface;
-use Symfony\Component\Security\Core\Authentication\Token\PreAuthenticatedToken;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Core\Exception\BadCredentialsException;
+use Symfony\Component\Security\Core\User\UserProviderInterface;
+use Symfony\Component\Security\Http\Authentication\AuthenticationFailureHandlerInterface;
 
 class BZDBAuthenticator implements SimplePreAuthenticatorInterface, AuthenticationFailureHandlerInterface
 {
@@ -21,18 +21,20 @@ class BZDBAuthenticator implements SimplePreAuthenticatorInterface, Authenticati
     protected $entityManager;
 
     /**
-     * The list of accepted BZFlag groups
+     * The list of accepted BZFlag groups.
+     *
      * @var string[]
      */
     protected $groups;
 
     /**
-     * @var boolean
+     * @var bool
      */
     protected $debug;
 
     /**
-     * Create new BZDBAuthenticator
+     * Create new BZDBAuthenticator.
+     *
      * @param EntityManager   $entityManager The doctrine entity manager
      * @param string          $debug         Whether the kernel is on debug mode
      * @param string[]|string $groups        The accepted BZFlag groups
@@ -40,14 +42,14 @@ class BZDBAuthenticator implements SimplePreAuthenticatorInterface, Authenticati
     public function __construct(EntityManager $entityManager, $groups, $debug)
     {
         $this->entityManager = $entityManager;
-        $this->groups = is_array($groups) ? $groups : array($groups);
-        $this->debug = $debug;
+        $this->groups        = is_array($groups) ? $groups : array($groups);
+        $this->debug         = $debug;
     }
 
     public function createToken(Request $request, $providerKey)
     {
         $username = $request->query->get('username');
-        $token = $request->query->get('token');
+        $token    = $request->query->get('token');
 
         if (!$username || !$token) {
             throw new AuthenticationException('No authentication token found');
@@ -63,8 +65,8 @@ class BZDBAuthenticator implements SimplePreAuthenticatorInterface, Authenticati
     public function authenticateToken(TokenInterface $token, UserProviderInterface $userProvider, $providerKey)
     {
         $credentials = $token->getCredentials();
-        $username = $credentials[0];
-        $token = $credentials[1];
+        $username    = $credentials[0];
+        $token       = $credentials[1];
 
         $bzData = \validate_token($token, $username, $this->groups, !$this->debug);
 

@@ -6,7 +6,7 @@ use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 
 /**
- * Question validator
+ * Question validator.
  */
 class QuestionValidator extends ConstraintValidator
 {

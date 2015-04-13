@@ -5,7 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Answer
+ * Answer.
  *
  * @ORM\Table()
  * @ORM\Entity
@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Answer
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -29,7 +29,7 @@ class Answer
     private $title;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="other", type="boolean")
      */
@@ -45,11 +45,10 @@ class Answer
      */
     private $votes;
 
-
     /**
-     * Get id
+     * Get id.
      *
-     * @return integer
+     * @return int
      */
     public function getId()
     {
@@ -57,9 +56,10 @@ class Answer
     }
 
     /**
-     * Set title
+     * Set title.
      *
      * @param string $title
+     *
      * @return Answer
      */
     public function setTitle($title)
@@ -70,7 +70,7 @@ class Answer
     }
 
     /**
-     * Get title
+     * Get title.
      *
      * @return string
      */
@@ -80,9 +80,10 @@ class Answer
     }
 
     /**
-     * Set other
+     * Set other.
      *
-     * @param boolean $other
+     * @param bool $other
+     *
      * @return Answer
      */
     public function setOther($other)
@@ -93,9 +94,9 @@ class Answer
     }
 
     /**
-     * Get other
+     * Get other.
      *
-     * @return boolean
+     * @return bool
      */
     public function getOther()
     {
@@ -103,9 +104,10 @@ class Answer
     }
 
     /**
-     * Set question
+     * Set question.
      *
      * @param \AppBundle\Entity\Question $question
+     *
      * @return Answer
      */
     public function setQuestion(\AppBundle\Entity\Question $question = null)
@@ -116,7 +118,7 @@ class Answer
     }
 
     /**
-     * Get question
+     * Get question.
      *
      * @return \AppBundle\Entity\Question
      */
@@ -125,7 +127,7 @@ class Answer
         return $this->question;
     }
     /**
-     * Constructor
+     * Constructor.
      */
     public function __construct()
     {
@@ -133,9 +135,10 @@ class Answer
     }
 
     /**
-     * Add votes
+     * Add votes.
      *
      * @param \AppBundle\Entity\Vote $votes
+     *
      * @return Answer
      */
     public function addVote(\AppBundle\Entity\Vote $votes)
@@ -146,7 +149,7 @@ class Answer
     }
 
     /**
-     * Remove votes
+     * Remove votes.
      *
      * @param \AppBundle\Entity\Vote $votes
      */
@@ -156,7 +159,7 @@ class Answer
     }
 
     /**
-     * Get votes
+     * Get votes.
      *
      * @return \Doctrine\Common\Collections\Collection
      */

@@ -4,9 +4,7 @@ namespace AppBundle\Form;
 
 use AppBundle\Entity\Question;
 use AppBundle\Entity\Vote;
-use Symfony\Component\Form\Extension\Core\ChoiceList\ChoiceListInterface;
 use Symfony\Component\Form\DataTransformerInterface;
-use Symfony\Component\Form\Exception\TransformationFailedException;
 
 class VoteTransformer implements DataTransformerInterface
 {
@@ -35,10 +33,10 @@ class VoteTransformer implements DataTransformerInterface
      */
     public function reverseTransform($values)
     {
-        $votes = array();
+        $votes   = array();
         $answers = $this->question->getAnswers();
 
-        foreach($answers as $i => $answer) {
+        foreach ($answers as $i => $answer) {
             if ($values[$i]['selected'] == false) {
                 continue;
             }

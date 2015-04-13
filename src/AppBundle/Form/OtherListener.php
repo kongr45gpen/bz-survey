@@ -2,10 +2,10 @@
 
 namespace AppBundle\Form;
 
-use Symfony\Component\Form\FormEvents;
-use Symfony\Component\Form\FormEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 
 class OtherListener implements EventSubscriberInterface
 {
@@ -53,8 +53,8 @@ class OtherListener implements EventSubscriberInterface
     {
         return array(
             FormEvents::PRE_SUBMIT => array(
-                array('preSubmit', 20)
-            )
+                array('preSubmit', 20),
+            ),
         );
     }
 }

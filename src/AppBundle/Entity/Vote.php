@@ -5,7 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Vote
+ * Vote.
  *
  * @ORM\Table()
  * @ORM\Entity
@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Vote
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -22,7 +22,7 @@ class Vote
     private $id;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="other", type="text", nullable=true)
      */
@@ -38,11 +38,10 @@ class Vote
      **/
     private $user;
 
-
     /**
-     * Get id
+     * Get id.
      *
-     * @return integer
+     * @return int
      */
     public function getId()
     {
@@ -50,9 +49,10 @@ class Vote
     }
 
     /**
-     * Set answer
+     * Set answer.
      *
      * @param \AppBundle\Entity\Answer $answer
+     *
      * @return Vote
      */
     public function setAnswer(\AppBundle\Entity\Answer $answer = null)
@@ -63,7 +63,7 @@ class Vote
     }
 
     /**
-     * Get answer
+     * Get answer.
      *
      * @return \AppBundle\Entity\Answer
      */
@@ -73,9 +73,10 @@ class Vote
     }
 
     /**
-     * Set user
+     * Set user.
      *
      * @param \AppBundle\Entity\User $user
+     *
      * @return Vote
      */
     public function setUser(\AppBundle\Entity\User $user = null)
@@ -86,7 +87,7 @@ class Vote
     }
 
     /**
-     * Get user
+     * Get user.
      *
      * @return \AppBundle\Entity\User
      */
@@ -96,9 +97,10 @@ class Vote
     }
 
     /**
-     * Set other
+     * Set other.
      *
      * @param string $other
+     *
      * @return Vote
      */
     public function setOther($other)
@@ -109,7 +111,7 @@ class Vote
     }
 
     /**
-     * Get other
+     * Get other.
      *
      * @return string
      */

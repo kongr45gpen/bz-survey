@@ -3,10 +3,7 @@
 namespace AppBundle\Form;
 
 use AppBundle\Entity\Question;
-use AppBundle\Entity\Vote;
-use Symfony\Component\Form\Extension\Core\ChoiceList\ChoiceListInterface;
 use Symfony\Component\Form\DataTransformerInterface;
-use Symfony\Component\Form\Exception\TransformationFailedException;
 
 class QuestionChoicesTransformer implements DataTransformerInterface
 {

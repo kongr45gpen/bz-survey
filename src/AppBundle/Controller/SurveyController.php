@@ -2,14 +2,13 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Survey;
+use AppBundle\Form\QuestionType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use AppBundle\Entity\Survey;
-use AppBundle\Form\QuestionType;
 
 /**
  * Survey controller.
@@ -18,11 +17,11 @@ use AppBundle\Form\QuestionType;
  */
 class SurveyController extends Controller
 {
-
     /**
      * Lists all Survey entities.
      *
      * @Route("/", name="survey")
+     *
      * @Method("GET")
      */
     public function indexAction()
@@ -91,7 +90,7 @@ class SurveyController extends Controller
 
         return $this->render('survey/show.html.twig', array(
             'survey'      => $survey,
-            'form' => $form->createView()
+            'form'        => $form->createView(),
         ));
     }
 
@@ -107,7 +106,7 @@ class SurveyController extends Controller
         }
 
         return $this->render('survey/results.html.twig', array(
-            'survey'      => $survey
+            'survey'      => $survey,
         ));
     }
 }

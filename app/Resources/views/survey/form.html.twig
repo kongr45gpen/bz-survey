@@ -74,6 +74,18 @@
     {{- widget|raw -}}
 {% endblock  %}
 
+{% block form_errors -%}
+    {% if errors|length > 0 -%}
+    {% if form.parent %}<span class="help-block">{% else %}<div class="alert alert-danger">{% endif %}
+    <ul class="list-unstyled">
+        {%- for error in errors -%}
+            <li><span class="glyphicon glyphicon-exclamation-sign"></span> {{ error.message }}</li>
+        {%- endfor -%}
+    </ul>
+    {% if form.parent %}</span>{% else %}</div>{% endif %}
+    {%- endif %}
+{%- endblock form_errors %}
+
 {% block checkbox_radio_label %}
     {# Do no display the label if widget is not defined in order to prevent double label rendering #}
     {% if widget is defined %}

@@ -1,5 +1,10 @@
 {% extends "bootstrap_3_horizontal_layout.html.twig" %}
 
+{% block app_question_row -%}
+    {{- block('form_row') -}}
+    <hr>
+{%- endblock %}
+
 {% block _other_checkbox_row -%}
 {%- spaceless %}
     <div class="form-group{% if not valid %} has-error{% endif %}">

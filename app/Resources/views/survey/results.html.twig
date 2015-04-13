@@ -4,8 +4,9 @@
 
 {% block body -%}
     {% set count = survey.users|length %}
-    <h1>{{ survey.title }} <small>{{ count }} {{ (count == 1) ? 'participant' : 'participants' }}</small></h1>
-    <hr>
+    <div class="page-header">
+        <h1>{{ survey.title }} <small>{{ count }} {{ (count == 1) ? 'participant' : 'participants' }}</small></h1>
+    </div>
 
     {% for question in survey.questions %}
         <h3>{{ question.title }}</h3>
@@ -20,11 +21,16 @@
 
                 <dt>{{ answer.title|raw }}</dt>
                 <dd>
-                    {% set count = answer.votes|length %}
+                    {%- set count = answer.votes|length -%}
                     {{ count }} {{ (count == 1) ? 'vote' : 'votes' }}
-                    {% if other is not empty %}
-                        ({{ other|join(', ') }})
-                    {% endif %}
+                    {% if other is not empty -%}
+                        (
+                        {%- for response in other -%}
+                            <code>{{ response }}</code>
+                            {{- not loop.last ? ', '}}
+                        {%- endfor -%}
+                        )
+                    {%- endif -%}
                 </dd>
             {% endfor %}
         </dl>

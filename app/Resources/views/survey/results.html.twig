@@ -3,7 +3,9 @@
 {% block title %}{{ survey.title }} Results{% endblock %}
 
 {% block body -%}
-    <h1>{{ survey.title }}</h1>
+    {% set count = survey.users|length %}
+    <h1>{{ survey.title }} <small>{{ count }} {{ (count == 1) ? 'participant' : 'participants' }}</small></h1>
+    <hr>
 
     {% for question in survey.questions %}
         <h3>{{ question.title }}</h3>

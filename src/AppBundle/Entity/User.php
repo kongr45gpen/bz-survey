@@ -38,7 +38,7 @@ class User implements UserInterface, \Serializable
     private $username;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Survey")
+     * @ORM\ManyToMany(targetEntity="Survey", inversedBy="users")
      */
     private $surveys;
 

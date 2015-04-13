@@ -1,3 +1,7 @@
+body {
+    padding-bottom: 30px;
+}
+
 .required:before {
     color: #AA1111;
     content: "* ";

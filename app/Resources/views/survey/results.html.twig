@@ -29,7 +29,7 @@
                         {{ count }} {{ (count == 1) ? 'vote' : 'votes' }}
                         {% if other is not empty -%}
                             (
-                            {%- for response in other -%}
+                            {%- for response in other|shuffle -%}
                                 <code>{{ response }}</code>
                                 {{- not loop.last ? ', '}}
                             {%- endfor -%}

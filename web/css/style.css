@@ -47,3 +47,8 @@ body {
             flex: 0 1 auto;
     min-height: 50px;
 }
+
+.charts-tooltip div {
+    background-color: rgba(255, 255, 255, 0.85) !important;
+    border-color: #333 !important;
+}

@@ -19,7 +19,9 @@
                     {%- endif -%}
                 {%- endfor -%}
 
-                <dt>{{ answer.title|raw }}</dt>
+                <dt title="{{ answer.title|striptags }}">
+                    {{- answer.title|raw -}}
+                </dt>
                 <dd>
                     {%- set count = answer.votes|length -%}
                     {{ count }} {{ (count == 1) ? 'vote' : 'votes' }}

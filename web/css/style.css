@@ -11,3 +11,39 @@ body {
 .label-purple {
     background-color: #564F8A;
 }
+
+.result-row {
+    -webkit-box-align: center;
+       -ms-flex-align: center;
+    -webkit-align-items: center;
+            align-items: center;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+       -ms-flex-pack: justify;
+    -webkit-justify-content: space-between;
+            justify-content: space-between;
+}
+
+.result-answers {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1 1 auto;
+        -ms-flex: 1 1 auto;
+            flex: 1 1 auto;
+    margin-bottom: 1em;
+    margin-right: 1em;
+    margin-top: 1em;
+}
+
+.result-chart {
+    -ms-flex-item-align: stretch;
+     -webkit-align-self: stretch;
+             align-self: stretch;
+    -webkit-box-flex: 0;
+    -webkit-flex: 0 1 auto;
+        -ms-flex: 0 1 auto;
+            flex: 0 1 auto;
+    min-height: 50px;
+}

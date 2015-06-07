@@ -2,49 +2,92 @@
 
 {% block title %}{{ survey.title }} Results{% endblock %}
 
+{% set surveyCount = survey.users|length %}
+
 {% block body -%}
-    {% set surveyCount = survey.users|length %}
     <div class="page-header">
         <h1>{{ survey.title }} <small>{{ surveyCount }} {{ (surveyCount == 1) ? 'participant' : 'participants' }}</small></h1>
     </div>
 
     {% for question in survey.questions %}
         <h3>{{ question.title }}</h3>
-        <dl class="dl-horizontal">
-            {% for answer in question.answers %}
-                {%- set other = [] -%}
-                {%- for vote in answer.votes -%}
-                    {%- if vote.other -%}
-                        {%- set other = other|merge([vote.other]) -%}
-                    {%- endif -%}
-                {%- endfor -%}
+        <div class="result-row">
+            <dl class="dl-horizontal result-answers">
+                {% for answer in question.answers %}
+                    {%- set other = [] -%}
+                    {%- for vote in answer.votes -%}
+                        {%- if vote.other -%}
+                            {%- set other = other|merge([vote.other]) -%}
+                        {%- endif -%}
+                    {%- endfor -%}
 
-                <dt title="{{ answer.title|striptags }}">
-                    {{- answer.title|raw -}}
-                </dt>
-                <dd>
-                    {%- set count = answer.votes|length -%}
-                    {{ count }} {{ (count == 1) ? 'vote' : 'votes' }}
-                    {% if other is not empty -%}
-                        (
-                        {%- for response in other -%}
-                            <code>{{ response }}</code>
-                            {{- not loop.last ? ', '}}
-                        {%- endfor -%}
-                        )
-                    {%- endif -%}
-                </dd>
-            {% endfor %}
-            {% if not question.required %}
-                <dd>
-                    {{ surveyCount - question.voterCount }} didn't answer
-                </dd>
-            {% endif %}
-        </dl>
+                    <dt title="{{ answer.title|striptags }}">
+                        {{- answer.title|raw -}}
+                    </dt>
+                    <dd>
+                        {%- set count = answer.votes|length -%}
+                        {{ count }} {{ (count == 1) ? 'vote' : 'votes' }}
+                        {% if other is not empty -%}
+                            (
+                            {%- for response in other -%}
+                                <code>{{ response }}</code>
+                                {{- not loop.last ? ', '}}
+                            {%- endfor -%}
+                            )
+                        {%- endif -%}
+                    </dd>
+                {% endfor %}
+                {% if not question.required %}
+                    <dd>
+                        {{ surveyCount - question.voterCount }} didn't answer
+                    </dd>
+                {% endif %}
+            </dl>
+
+            <div id="chart-question-{{ question.id }}" class="result-chart">
+            </div>
+        </div>
         <hr>
     {% endfor %}
 
     <a class="btn btn-default" href="{{ path('survey') }}">
         Back to the list
     </a>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="https://www.google.com/jsapi?autoload={'modules':[{'name':'visualization','version':'1.1','packages':['corechart']}]}"></script>
+
+    <script type="text/javascript">
+        google.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+            {% for question in survey.questions %}
+                var data = google.visualization.arrayToDataTable([
+                    ['Answer', 'Votes'],
+                    {%- for answer in question.answers -%}
+                        ['{{ answer.title|striptags|escape('js') }}', {{ answer.votes|length }}],
+                    {%- endfor -%}
+                    {%- if not question.required -%}
+                        ['Didn\'t answer', {{ surveyCount - question.voterCount }}]
+                    {%- endif -%}
+                ]);
+
+                var options = {
+                    allowHtml: true,
+                    legend: 'none',
+                    {% if not question.required and not question.multiple -%}
+                        slices: {
+                                {{ question.answers|length }}: { color: '#DDDDDD' }
+                        }
+                    {%- endif %}
+                }
+
+                {% set type = question.multiple ? 'BarChart' : 'PieChart' %}
+                var chart = new google.visualization.{{ type }}(document.getElementById('chart-question-{{ question.id }}'));
+                chart.draw(data, options);
+            {% endfor %}
+        }
+    </script>
 {% endblock %}

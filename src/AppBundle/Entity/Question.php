@@ -255,4 +255,22 @@ class Question
     {
         return $this->url;
     }
+
+    /**
+     * Get the number of users who provided at least one vote for this question
+     *
+     * @return integer
+     */
+    public function getVoterCount()
+    {
+        $voters = [];
+
+        foreach ($this->answers as $answer) {
+            foreach ($answer->getVotes() as $vote) {
+                $voters[$vote->getUser()->getId()] = true;
+            }
+        }
+
+        return count($voters);
+    }
 }

@@ -3,9 +3,9 @@
 {% block title %}{{ survey.title }} Results{% endblock %}
 
 {% block body -%}
-    {% set count = survey.users|length %}
+    {% set surveyCount = survey.users|length %}
     <div class="page-header">
-        <h1>{{ survey.title }} <small>{{ count }} {{ (count == 1) ? 'participant' : 'participants' }}</small></h1>
+        <h1>{{ survey.title }} <small>{{ surveyCount }} {{ (surveyCount == 1) ? 'participant' : 'participants' }}</small></h1>
     </div>
 
     {% for question in survey.questions %}
@@ -33,6 +33,11 @@
                     {%- endif -%}
                 </dd>
             {% endfor %}
+            {% if not question.required %}
+                <dd>
+                    {{ surveyCount - question.voterCount }} didn't answer
+                </dd>
+            {% endif %}
         </dl>
         <hr>
     {% endfor %}

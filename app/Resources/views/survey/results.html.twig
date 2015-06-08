@@ -60,7 +60,23 @@
     <script type="text/javascript" src="https://www.google.com/jsapi?autoload={'modules':[{'name':'visualization','version':'1.1','packages':['corechart']}]}"></script>
 
     <script type="text/javascript">
-        google.setOnLoadCallback(drawChart);
+        google.setOnLoadCallback(function(){
+            loadTooltips();
+            drawChart();
+        });
+
+        function loadTooltips() {
+            $('dt').each(function() {
+                var $this = $(this);
+
+                if (this.offsetWidth < this.scrollWidth){
+                    $this.tooltip();
+                }
+
+                // Remove the CSS title
+                $this.attr('title', null);
+            });
+        }
 
         function drawChart() {
             {% for question in survey.questions %}

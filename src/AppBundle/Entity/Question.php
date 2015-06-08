@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table()
  * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks
  */
 class Question
 {
@@ -272,5 +273,33 @@ class Question
         }
 
         return count($voters);
+    }
+
+    /**
+     * Sort the answers collection of the question based on each answer's vote
+     *
+     * @ORM\PostLoad
+     */
+    public function sortAnswers()
+    {
+        $iterator = $this->answers->getIterator();
+        $iterator->uasort(function ($a, $b) {
+            if ($a->getOther() > $b->getOther()) {
+                return 1;
+            } elseif ($b->getOther() > $a->getOther()) {
+                return -1;
+            }
+
+            $aVotes = count($a->getVotes());
+            $bVotes = count($b->getVotes());
+
+            if ($aVotes === $bVotes) {
+                return 0;
+            }
+
+            return ($aVotes > $bVotes) ? -1 : 1;
+        });
+
+        $this->answers = new ArrayCollection(iterator_to_array($iterator));
     }
 }

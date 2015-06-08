@@ -94,7 +94,7 @@
                     legend: 'none',
                     {% if not question.required and not question.multiple -%}
                         slices: {
-                                {{ question.answers|length }}: { color: '#DDDDDD' }
+                            {{ question.answers|length }}: { color: '#DDDDDD' }
                         },
                     {%- endif %}
                 }

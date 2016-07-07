@@ -6,7 +6,7 @@ parameters:
 services:
     bzdb_authenticator:
         class:     AppBundle\Security\BZDBAuthenticator
-        arguments: ["@doctrine.orm.entity_manager", "%bzflag_groups%", "%kernel.debug%"]
+        arguments: ["@doctrine.orm.entity_manager", "@router", "%bzflag_groups%", "%kernel.debug%"]
     twig.extension.intl:
         class: Twig_Extensions_Extension_Array
         tags:

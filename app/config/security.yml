@@ -45,16 +45,13 @@ security:
         #     #    realm: "Secured Demo Area"
         #
         default:
-            form_login:
-                check_path: login_check
-                login_path: login_route
+            guard:
+                authenticators:
+                    - bzdb_authenticator
             logout:
                 path:   /logout
                 target: /
             pattern:    ^/*
-            #provider: bzdb
-            simple_preauth:
-                authenticator: bzdb_authenticator
 
     # with these settings you can restrict or allow access for different parts
     # of your application based on roles, ip, host or methods

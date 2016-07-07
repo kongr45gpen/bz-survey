@@ -16,7 +16,7 @@ class Question extends Constraint
     public $question;
 
     /**
-     * Create new question form constraint.
+     * Create new question form constraint
      *
      * @param QuestionEntity $question The question
      */

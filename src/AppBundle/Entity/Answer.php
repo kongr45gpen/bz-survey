@@ -36,6 +36,13 @@ class Answer
     private $other;
 
     /**
+     * @var bool
+     *
+     * @ORM\Column(name="button", type="boolean")
+     */
+    private $button;
+
+    /**
      * @ORM\ManyToOne(targetEntity="Question", inversedBy="answers")
      */
     private $question;
@@ -101,6 +108,26 @@ class Answer
     public function getOther()
     {
         return $this->other;
+    }
+
+    /**
+     * Set whether this answer is a button
+     *
+     * @param bool $button
+     */
+    public function setButton($button)
+    {
+        $this->button = $button;
+    }
+
+    /**
+     * Get whether this answer is a button
+     *
+     * @return bool
+     */
+    public function getButton()
+    {
+        return $this->button;
     }
 
     /**

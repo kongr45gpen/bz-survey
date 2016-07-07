@@ -54,11 +54,11 @@
 {% endblock %}
 
 {% block form_label_class -%}
-    {{ compound ? 'col-sm-5 col-md-4' : 'col-lg-1' }}
+    {{ compound|default(null) ? 'col-sm-5 col-md-4' : 'col-lg-1' }}
 {%- endblock form_label_class %}
 
 {% block form_group_class -%}
-    {{ compound ? 'col-sm-7 col-md-8' : 'col-lg-11' }}
+    {{ compound|default(null) ? 'col-sm-7 col-md-8' : 'col-lg-11' }}
 {%- endblock form_group_class %}
 
 {% block _other_text_row -%}

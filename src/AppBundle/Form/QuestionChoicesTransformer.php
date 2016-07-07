@@ -2,17 +2,17 @@
 
 namespace AppBundle\Form;
 
-use AppBundle\Entity\Question;
+use AppBundle\Entity\Question as QuestionEntity;
 use Symfony\Component\Form\DataTransformerInterface;
 
 class QuestionChoicesTransformer implements DataTransformerInterface
 {
     /**
-     * @var Question
+     * @var QuestionEntity
      */
     private $question;
 
-    public function __construct(Question $question)
+    public function __construct(QuestionEntity $question)
     {
         $this->question = $question;
     }
@@ -33,7 +33,7 @@ class QuestionChoicesTransformer implements DataTransformerInterface
         $data = array();
 
         foreach ($this->question->getAnswers() as $i => $answer) {
-            $data[$i]['selected'] = $values[$i];
+            $data[$i]['selected'] = ($values[$i] === null || $values[$i] === false) ? false : true;
 
             if ($answer->getOther()) {
                 $other = $data[$i]['other'] = $values[$i . '-other'];

@@ -2,7 +2,11 @@
 
 namespace AppBundle\Form;
 
+use AppBundle\Entity\Answer;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\RadioType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
@@ -17,18 +21,32 @@ class QuestionType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $type = $options['question']->getMultiple() ? 'checkbox' : 'radio';
+        $type = $options['question']->getMultiple() ? CheckboxType::class : RadioType::class;
 
         $choices = array();
 
         foreach ($options['question']->getAnswers() as $i => $answer) {
-            $builder->add($i, $type, array(
-                'attr'       => array('data-other' => $answer->getOther() ? $type : false),
-                'block_name' => 'entry',
-                'label'      => $answer->getTitle(),
-                'required'   => false,
-                'value'      => $i,
-            ));
+            /** @var Answer $answer */
+
+            $other = ['data-other' => $answer->getOther() ? $type : false];
+
+            if (!$answer->getButton()) {
+                $builder->add($i, $type, array(
+                    'attr'       => $other,
+                    'block_name' => 'entry',
+                    'label'      => $answer->getTitle(),
+                    'required'   => false,
+                    'value'      => $i,
+                ));
+            } else {
+                $builder->add($i, ButtonType::class, array(
+                    'attr'       => $other + [ 'type' => 'submit', 'value' => $i ],
+                    'block_name' => 'entry',
+                    'label'      => $answer->getTitle(),
+                    'required'   => false,
+                ));
+            }
+
 
             if ($answer->getOther()) {
                 $name = $i . '-other';
@@ -43,11 +61,10 @@ class QuestionType extends AbstractType
                     'required'   => false,
                 ));
             }
-
             $choices[$i] = $i;
         }
 
-        $builder->addEventSubscriber(new OtherListener(), 10);
+        $builder->addEventSubscriber(new OtherListener());
 
         $builder->addViewTransformer(new QuestionChoicesTransformer($options['question']));
         $builder->addModelTransformer(new VoteTransformer($options['question']));

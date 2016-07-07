@@ -35,6 +35,14 @@
                             {%- endfor -%}
                             )
                         {%- endif -%}
+
+                        {%- if survey.showParticipants -%}
+                            <ul class="list-inline">
+                                {% for vote in answer.votes %}
+                                    <li>{{ vote.user.username }}</li>
+                                {% endfor %}
+                            </ul>
+                        {%- endif -%}
                     </dd>
                 {% endfor %}
                 {% if not question.required %}

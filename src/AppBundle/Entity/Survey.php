@@ -51,6 +51,13 @@ class Survey
     private $allowResetting;
 
     /**
+     * @var bool
+     *
+     * @ORM\Column(name="showParticipants", type="boolean")
+     */
+    private $showParticipants;
+
+    /**
      * @ORM\OneToMany(targetEntity="Question", mappedBy="survey")
      */
     private $questions;
@@ -184,6 +191,32 @@ class Survey
     {
         return $this->showResults;
     }
+
+    /**
+     * Get whether to show the participant names in the survey results
+     *
+     * @return mixed
+     */
+    public function getShowParticipants()
+    {
+        return $this->showParticipants;
+    }
+
+    /**
+     * Set whether to show the participant names in the survey results
+     *
+     * @param mixed $showParticipants
+     *
+     * @return self
+     */
+    public function setShowParticipants($showParticipants)
+    {
+        $this->showParticipants = $showParticipants;
+
+        return $this;
+    }
+
+
 
     /**
      * Get whether this survey allows users to delete their answers and submit

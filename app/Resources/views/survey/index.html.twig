@@ -35,6 +35,14 @@
                         <a class="btn {{ class }}" href="{{ path('survey_show', { 'id': survey.id }) }}">
                             {{ voted ? 'voted' : 'vote' }}
                         </a>
+                        {% if voted and survey.allowResetting %}
+                            <a
+                                class="btn btn-danger {%- if not survey.enabled %} disabled {%- endif -%}"
+                                href="{{ path('survey_cancel', { 'id': survey.id }) }}"
+                            >
+                                Cancel submission
+                            </a>
+                        {% endif %}
                         {% if survey.showResults %}
                             <a class="btn btn-default" href="{{ path('survey_results', { 'id': survey.id }) }}">
                                 results

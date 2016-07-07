@@ -44,6 +44,13 @@ class Survey
     private $showResults;
 
     /**
+     * @var bool
+     *
+     * @ORM\Column(name="allowResetting", type="boolean")
+     */
+    private $allowResetting;
+
+    /**
      * @ORM\OneToMany(targetEntity="Question", mappedBy="survey")
      */
     private $questions;
@@ -176,6 +183,29 @@ class Survey
     public function getShowResults()
     {
         return $this->showResults;
+    }
+
+    /**
+     * Get whether this survey allows users to delete their answers and submit
+     * it again
+     *
+     * @return bool
+     */
+    public function getAllowResetting()
+    {
+        return $this->allowResetting;
+    }
+
+    /**
+     * @param bool $allowRetaking
+     *
+     * @return self
+     */
+    public function setAllowResetting($allowResetting)
+    {
+        $this->allowResetting = $allowResetting;
+
+        return $this;
     }
 
     /**

@@ -3,10 +3,14 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Survey;
+use AppBundle\Entity\Vote;
 use AppBundle\Form\QuestionType;
+use Doctrine\ORM\Query\Expr\Join;
+use Doctrine\ORM\QueryBuilder;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
@@ -89,8 +93,8 @@ class SurveyController extends Controller
         }
 
         return $this->render('survey/show.html.twig', array(
-            'survey'      => $survey,
-            'form'        => $form->createView(),
+            'survey' => $survey,
+            'form' => $form->createView(),
         ));
     }
 
@@ -106,7 +110,78 @@ class SurveyController extends Controller
         }
 
         return $this->render('survey/results.html.twig', array(
-            'survey'      => $survey,
+            'survey' => $survey,
+        ));
+    }
+
+    /**
+     * Allows resetting the submission of a survey
+     *
+     * @Route("/{id}/cancel", name="survey_cancel")
+     */
+    public function cancelAction(Survey $survey, Request $request)
+    {
+        if (!$survey->getAllowResetting()) {
+            $error = 'This survey does not allow resetting its submissions.';
+        }
+
+        if (!$this->getUser()->hasSurvey($survey)) {
+            $error = 'You haven\'t participated in this survey yet.';
+        }
+
+        if (!$survey->getEnabled()) {
+            $error = 'Sorry, but this survey isn\'t accepting modifications in responses any more.';
+        }
+
+        if (isset($error)) {
+            $request->getSession()->getFlashbag()->add('error', $error);
+            return $this->redirectToRoute('homepage');
+        }
+
+        $form = $this->createFormBuilder()
+            ->add('Yes', SubmitType::class)
+            ->add('No', SubmitType::class)
+            ->getForm()
+        ;
+
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            if ($form->get('Yes')->isClicked()) {
+                $em = $this->getDoctrine()->getManager();
+
+                $this->getUser()->removeSurvey($survey);
+                $em->persist($survey);
+
+                /** @var QueryBuilder $query */
+                $query = $em->createQueryBuilder();
+                $votes = $query->select('v')
+                    ->from('AppBundle:Vote', 'v')
+                    ->innerJoin('v.answer', 'a')
+                    ->innerJoin('a.question', 'q', Join::WITH, 'q.survey = :survey')
+                    ->where('v.user = :user')
+                    ->getQuery()
+                    ->setParameter('user', $this->getUser())
+                    ->setParameter('survey', $survey)
+                    ->getResult()
+                ;
+                $em->createQueryBuilder()
+                    ->delete('AppBundle:Vote','v')
+                    ->where('v in (?1)')
+                    ->getQuery()
+                    ->setParameter(1, $votes)
+                    ->execute();
+
+                $em->flush();
+                $request->getSession()->getFlashbag()->add('success', 'Your submission has been cancelled.');
+            }
+
+            return $this->redirectToRoute('homepage');
+        }
+
+        return $this->render('survey/cancel.html.twig', array(
+            'form' => $form->createView(),
+            'survey' => $survey,
         ));
     }
 }

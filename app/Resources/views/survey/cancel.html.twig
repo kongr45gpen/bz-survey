@@ -1,0 +1,25 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}{{ survey.title }} :: Cancel{% endblock %}
+
+{% block body -%}
+    <div class="page-header">
+        <h1>Cancel submission to {{ survey.title }}</h1>
+    </div>
+
+    <div class="text-center">
+        <p>Are you sure you want to reset your submission to {{ survey.title }}?</p>
+
+        <p>You'll be able to re-submit it later.</p>
+
+        <form name="form" method="post" action="">
+            <div class="btn-group" role="group">
+                {{ form_widget(form.Yes, { attr: { class: 'btn-lg btn-primary' } }) }}
+                {{ form_widget(form.No,  { attr: { class: 'btn-lg btn-default' } }) }}
+            </div>
+
+            {{ form_rest(form) }}
+        </form>
+    </div>
+
+{% endblock %}

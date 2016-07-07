@@ -114,10 +114,14 @@ class Answer
      * Set whether this answer is a button
      *
      * @param bool $button
+     *
+     * @return self
      */
     public function setButton($button)
     {
         $this->button = $button;
+
+        return $this;
     }
 
     /**

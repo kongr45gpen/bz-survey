@@ -5,23 +5,48 @@
     <hr>
 {%- endblock %}
 
-{% block _other_checkbox_row -%}
+{% block _other_selection_row -%}
 {%- spaceless %}
-    <div class="form-group{% if not valid %} has-error{% endif %}">
+    <div class="form-group{% if not valid|default(true) %} has-error{% endif %}">
         <div class="{{ block('form_label_class') }}"></div>
         <div class="col-md-5 col-lg-4">
             {{ form_errors(form) }}
             <div class="input-group">
                 <span class="input-group-addon">
+                    {% set rawlabel = label %}
                     {% set label = false %}
                     {{ form_widget(form, {
                         label: false,
-                        parent_label_class: ["checkbox-inline", "radio-inline"]
+                        parent_label_class: ["checkbox-inline", "radio-inline"],
+                        rawlabel: rawlabel
                        })
                     }}
                 </span>
 {% endspaceless -%}
 {%- endblock %}
+
+{% block _other_text_row -%}
+{%- spaceless %}
+                {{ block('form_widget_simple') }}
+            </div>
+        </div>
+    </div>
+{% endspaceless -%}
+{%- endblock %}
+
+{% block _other_label %}
+    {{- widget|raw -}}
+{% endblock  %}
+
+{% block _other_submit_widget %}
+    {%- set attr = attr|merge({ class: 'btn-default btn-xs'}) -%}
+    {%- set label = rawlabel -%}
+    {{- block('submit_widget') -}}
+{% endblock  %}
+
+{% block submit_errors -%}
+{%- endblock submit_errors %}
+
 
 {% block form_label %}
     {% if url is defined and url %}
@@ -60,19 +85,6 @@
 {% block form_group_class -%}
     {{ compound|default(null) ? 'col-sm-7 col-md-8' : 'col-lg-11' }}
 {%- endblock form_group_class %}
-
-{% block _other_text_row -%}
-{%- spaceless %}
-                {{ block('form_widget_simple') }}
-            </div>
-        </div>
-    </div>
-{% endspaceless -%}
-{%- endblock %}
-
-{% block _other_label %}
-    {{- widget|raw -}}
-{% endblock  %}
 
 {% block form_errors -%}
     {% if errors|length > 0 -%}

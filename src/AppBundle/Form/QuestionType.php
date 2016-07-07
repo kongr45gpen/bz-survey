@@ -6,12 +6,12 @@ use AppBundle\Entity\Answer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\RadioType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\Options;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class QuestionType extends AbstractType
 {
@@ -22,17 +22,16 @@ class QuestionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $type = $options['question']->getMultiple() ? CheckboxType::class : RadioType::class;
+        $simpleType = $options['question']->getMultiple() ? 'checkbox' : 'radio';
 
         $choices = array();
 
         foreach ($options['question']->getAnswers() as $i => $answer) {
             /** @var Answer $answer */
 
-            $other = ['data-other' => $answer->getOther() ? $type : false];
-
             if (!$answer->getButton()) {
                 $builder->add($i, $type, array(
-                    'attr'       => $other,
+                    'attr'       => ['data-other' => $answer->getOther() ? $simpleType : false],
                     'block_name' => 'entry',
                     'label'      => $answer->getTitle(),
                     'required'   => false,
@@ -40,7 +39,11 @@ class QuestionType extends AbstractType
                 ));
             } else {
                 $builder->add($i, ButtonType::class, array(
-                    'attr'       => $other + [ 'type' => 'submit', 'value' => $i ],
+                    'attr'       => [
+                        'data-other' => $answer->getOther() ? 'submit' : false,
+                        'type' => 'submit',
+                        'value' => $i
+                    ],
                     'block_name' => 'entry',
                     'label'      => $answer->getTitle(),
                     'required'   => false,
@@ -51,7 +54,7 @@ class QuestionType extends AbstractType
             if ($answer->getOther()) {
                 $name = $i . '-other';
 
-                $builder->add($name, 'text', array(
+                $builder->add($name, TextType::class, array(
                     'attr' => array(
                         'data-other'  => 'text',
                         'placeholder' => $answer->getTitle(),
@@ -117,9 +120,8 @@ class QuestionType extends AbstractType
                 $childView->vars['block_prefixes'][] = '_other';
                 $childView->vars['block_prefixes'][] = '_other_' . $other;
 
-                if ($other === 'radio') {
-                    // Radios are checkboxes
-                    $childView->vars['block_prefixes'][] = '_other_checkbox';
+                if ($other !== 'text') {
+                    $childView->vars['block_prefixes'][] = '_other_selection';
                 }
             }
 
@@ -128,9 +130,9 @@ class QuestionType extends AbstractType
     }
 
     /**
-     * @param OptionsResolverInterface $resolver
+     * @param OptionsResolver $resolver
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
             'compound'    => true,
@@ -150,15 +152,13 @@ class QuestionType extends AbstractType
 
         $resolver->setRequired('question');
 
-        $resolver->setAllowedTypes(array(
-            'question' => array('AppBundle\Entity\Question'),
-        ));
+        $resolver->setAllowedTypes('question', 'AppBundle\Entity\Question');
     }
 
     /**
      * @return string
      */
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'app_question';
     }

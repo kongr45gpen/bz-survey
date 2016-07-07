@@ -45,7 +45,7 @@ class SurveyController extends Controller
         $form = $this->createFormBuilder();
 
         foreach ($survey->getQuestions() as $question) {
-            $form->add($question->getId(), new QuestionType(), array(
+            $form->add($question->getId(), QuestionType::class, array(
                 'question' => $question,
             ));
         }

@@ -38,7 +38,7 @@
 
                         {%- if survey.showParticipants -%}
                             <ul class="list-inline">
-                                {% for vote in answer.votes %}
+                                {% for vote in answer.votes|shuffle %}
                                     <li>{{ vote.user.username }}</li>
                                 {% endfor %}
                             </ul>

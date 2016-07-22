@@ -7,6 +7,11 @@ services:
     bzdb_authenticator:
         class:     AppBundle\Security\BZDBAuthenticator
         arguments: ["@doctrine.orm.entity_manager", "@router", "%bzflag_groups%", "%kernel.debug%"]
+    app.twig_extension:
+        class: AppBundle\Twig\AppExtension
+        public: false
+        tags:
+            - { name: twig.extension }
     twig.extension.intl:
         class: Twig_Extensions_Extension_Array
         tags:

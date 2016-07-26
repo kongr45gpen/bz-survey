@@ -1,0 +1,23 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}{{ survey.title }} :: {{ action|capitalize }}{% endblock %}
+
+{% block body -%}
+    <div class="page-header">
+        <h1>{{ action|capitalize }} {{ survey.title }}</h1>
+    </div>
+
+    <div class="text-center">
+        <p>Are you sure you want to {{ action }} <strong>{{ survey.title }}</strong>?</p>
+
+        <form name="form" method="post" action="">
+            <div class="btn-group" role="group">
+                {{ form_widget(form.Yes, { attr: { class: 'btn-lg btn-primary' } }) }}
+                {{ form_widget(form.No,  { attr: { class: 'btn-lg btn-default' } }) }}
+            </div>
+
+            {{ form_rest(form) }}
+        </form>
+    </div>
+
+{% endblock %}

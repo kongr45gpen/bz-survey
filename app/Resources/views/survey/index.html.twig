@@ -49,6 +49,21 @@
                             </a>
                         {% endif %}
                     </div>
+
+                    {%- if survey.owner.id == app.user.id %}
+                        <div class="btn-group btn-sm" role="group" aria-label="Administrative actions">
+                            <div class="btn btn-warning disabled btn-sm"><i class="glyphicon glyphicon-exclamation-sign"></i></div>
+                            {% if survey.enabled %}
+                                <a class="btn btn-warning btn-sm" href="{{ path('survey_disable', { 'id': survey.id }) }}">
+                                    disable survey
+                                </a>
+                            {% else %}
+                                <a class="btn btn-warning btn-sm" href="{{ path('survey_enable', { 'id': survey.id }) }}">
+                                    enable survey
+                                </a>
+                            {% endif %}
+                        </div>
+                    {% endif %}
                 </td>
             </tr>
         {% endfor %}

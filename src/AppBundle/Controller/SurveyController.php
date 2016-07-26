@@ -184,4 +184,94 @@ class SurveyController extends Controller
             'survey' => $survey,
         ));
     }
+
+    /**
+     * Allows an admin to disable a survey
+     *
+     * @Route("/{id}/disable", name="survey_disable")
+     */
+    public function disableAction(Survey $survey, Request $request)
+    {
+        if ($survey->getOwner()->getId() !== $this->getUser()->getId()) {
+            $error = 'You are not allowed to do this';
+        } elseif (!$survey->getEnabled()) {
+            $error = 'This survey is already disabled';
+        }
+
+        if (isset($error)) {
+            $request->getSession()->getFlashbag()->add('error', $error);
+            return $this->redirectToRoute('homepage');
+        }
+
+        $form = $this->createFormBuilder()
+            ->add('Yes', SubmitType::class)
+            ->add('No', SubmitType::class)
+            ->getForm()
+        ;
+
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $survey->setEnabled(false);
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($survey);
+            $em->flush();
+
+            $request->getSession()->getFlashbag()->add('success', 'The survey has been disabled.');
+
+            return $this->redirectToRoute('homepage');
+        }
+
+        return $this->render('survey/enable.html.twig', array(
+            'action' => 'disable',
+            'form' => $form->createView(),
+            'survey' => $survey,
+        ));
+    }
+
+    /**
+     * Allows an admin to enable a survey
+     *
+     * @Route("/{id}/enable", name="survey_enable")
+     */
+    public function enableAction(Survey $survey, Request $request)
+    {
+        if ($survey->getOwner()->getId() !== $this->getUser()->getId()) {
+            $error = 'You are not allowed to do this';
+        } elseif ($survey->getEnabled()) {
+            $error = 'This survey is already enabled';
+        }
+
+        if (isset($error)) {
+            $request->getSession()->getFlashbag()->add('error', $error);
+            return $this->redirectToRoute('homepage');
+        }
+
+        $form = $this->createFormBuilder()
+            ->add('Yes', SubmitType::class)
+            ->add('No', SubmitType::class)
+            ->getForm()
+        ;
+
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $survey->setEnabled(true);
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($survey);
+            $em->flush();
+
+            $request->getSession()->getFlashbag()->add('success', 'The survey has been enabled.');
+
+            return $this->redirectToRoute('homepage');
+        }
+
+        return $this->render('survey/enable.html.twig', array(
+            'action' => 'enable',
+            'form' => $form->createView(),
+            'survey' => $survey,
+        ));
+    }
 }

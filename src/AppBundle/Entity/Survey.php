@@ -51,6 +51,11 @@ class Survey
     private $allowResetting;
 
     /**
+     * @ORM\ManyToOne(targetEntity="User")
+     */
+    private $owner;
+
+    /**
      * @var bool
      *
      * @ORM\Column(name="showParticipants", type="boolean")
@@ -237,6 +242,28 @@ class Survey
     public function setAllowResetting($allowResetting)
     {
         $this->allowResetting = $allowResetting;
+
+        return $this;
+    }
+
+    /**
+     * @return User
+     */
+    public function getOwner()
+    {
+        return $this->owner;
+    }
+
+    /**
+     * Set owner
+     *
+     * @param User $owner
+     *
+     * @return self
+     */
+    public function setOwner($owner)
+    {
+        $this->owner = $owner;
 
         return $this;
     }

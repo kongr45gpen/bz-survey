@@ -302,4 +302,16 @@ class Question
 
         $this->answers = new ArrayCollection(iterator_to_array($iterator));
     }
+
+    /**
+     * Returns whether this question has multiple possible answers
+     *
+     * Always true if the question is not required
+     *
+     * @return bool
+     */
+    public function hasMultipleAnswers()
+    {
+        return !$this->required || count($this->answers) > 1;
+    }
 }

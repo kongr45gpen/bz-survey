@@ -52,8 +52,11 @@
                 {% endif %}
             </dl>
 
-            <div id="chart-question-{{ question.id }}" class="result-chart">
-            </div>
+            {% if question.hasMultipleAnswers %}
+                {# Questions with one possible answer don't get a chart #}
+                <div id="chart-question-{{ question.id }}" class="result-chart">
+                </div>
+            {% endif %}
         </div>
         <hr>
     {% endfor %}
@@ -87,7 +90,7 @@
         }
 
         function drawChart() {
-            {% for question in survey.questions %}
+            {% for question in survey.questions if question.hasMultipleAnswers %}
                 var data = google.visualization.arrayToDataTable([
                     ['Answer', 'Votes'],
                     {%- for answer in question.answers -%}

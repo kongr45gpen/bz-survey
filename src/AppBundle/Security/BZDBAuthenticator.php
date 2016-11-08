@@ -48,8 +48,13 @@ class BZDBAuthenticator extends AbstractFormLoginAuthenticator
     {
         $this->entityManager = $entityManager;
         $this->router        = $router;
-        $this->groups        = is_array($groups) ? $groups : array($groups);
         $this->debug         = $debug;
+
+        if (empty($groups)) {
+            $this->groups = $groups;
+        } else {
+            $this->groups = is_array($groups) ? $groups : array($groups);
+        }
     }
 
     /**

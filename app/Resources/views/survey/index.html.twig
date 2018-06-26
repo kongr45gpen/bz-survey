@@ -43,7 +43,7 @@
                                 Cancel submission
                             </a>
                         {% endif %}
-                        {% if survey.showResults %}
+                        {% if survey.showResults or survey.owner.id == app.user.id  %}
                             <a class="btn btn-default" href="{{ path('survey_results', { 'id': survey.id }) }}">
                                 results
                             </a>

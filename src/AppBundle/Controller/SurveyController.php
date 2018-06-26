@@ -105,7 +105,7 @@ class SurveyController extends Controller
      */
     public function resultsAction(Survey $survey)
     {
-        if (!$survey->getShowResults()) {
+        if (!$survey->getShowResults() && $this->getUser()->getID() !== $survey->getOwner()->getId()) {
             throw new AccessDeniedException('You cannot access this page');
         }
 
